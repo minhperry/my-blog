@@ -8,8 +8,8 @@ series: 'Migrating from Cloudflare Pages to VPS'
 A brief introduction to why I made the change.
 <!--more-->
 
-## What is [Cloudflare Pages](https://pages.cloudflare.com/)?
-Similar to GitHub Pages, Cloudflare Pages is a free platform for hosting static websites, offering automatic build and deployment every time you push changes to your GitHub repository. What sets Cloudflare apart is its use of a CDN (Content Delivery Network), which ensures your site is served from the server closest to the user, making it incredibly fast.
+## What is Cloudflare Pages?
+Similar to GitHub Pages, [Cloudflare Pages](https://pages.cloudflare.com/) is a free platform for hosting static websites, offering automatic build and deployment every time you push changes to your GitHub repository. What sets Cloudflare apart is its use of a CDN (Content Delivery Network), which ensures your site is served from the server closest to the user, making it incredibly fast.
 
 To put it simply: Imagine you’re in Australia. If your website is hosted in the USA, the data has to travel across the ocean and back, which can slow things down. With Cloudflare’s CDN, your website is copied to servers in Australia or New Zealand, so the data travels a much shorter distance, improving speed.
 
