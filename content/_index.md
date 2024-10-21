@@ -1,9 +1,7 @@
 ---
-title: My Site
+title: minhperry's Blog
 toc: false
 ---
-
-This is the landing page.
 
 ## Explore
 
