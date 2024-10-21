@@ -1,5 +1,6 @@
 # Hugo configuration file
 title: minhperry's Blog
+cleanDestinationDir: true
 
 # import hextra as module
 module:
@@ -37,7 +38,11 @@ menu:
 params:
   navbar:
     displayTitle: true
-    displayLogo: false
+    displayLogo: true
+    logo:
+      path: https://avatars.githubusercontent.com/u/46137516?v=4
+      width: 40
+      height: 20
 
   footer:
     displayCopyright: false

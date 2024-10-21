@@ -18,3 +18,4 @@ bin-release/
 public/
 
 # Backup Files
+_temp/
