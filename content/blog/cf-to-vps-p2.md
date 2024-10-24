@@ -35,16 +35,16 @@ Before everything, we need to adjust firewall to allow access to Nginx. Just fol
 
 Optionally, you can also deny HTTP traffic by denying Nginx HTTP through firewall, thus forcing only HTTPS traffic:
 
-```bash
+~~~bash {filename="bash"}
 ufw deny 'Nginx HTTP'
-```
+~~~
 
 ## SSL/TLS and Nginx config
 
 With SSL/TLS, my website can be served safely on the internet, under the HTTPS protocol. Here I use [Let's Encrypt](https://letsencrypt.org/) with the help of [Certbot](https://certbot.eff.org/) through [this guide](https://www.webhi.com/how-to/generate-lets-encrypt-wildcard-certificates-nginx/):
 
 ### Step 1: Generating wildcard certificate
-```bash
+```bash {filename="bash"}
 sudo certbot certonly --manual --preferred-challenges=dns --server https://acme-v02.api.letsencrypt.org/directory --agree-tos -d '*.yourdomain.net'
 ```
 Follow the promp and add a DNS TXT record to prove your ownership. The certificate (`fullchain.pem`) and its private key (`privkey.pem`) will be put under `/etc/letsencrypt/live/yourdomain.net`. This certificate will only lasts for 90d, and you can renew it near the end with `certbot renew --nginx`.
@@ -53,9 +53,9 @@ Follow the promp and add a DNS TXT record to prove your ownership. The certifica
 
 If you are not familiar with Nginx in any way, I recommend reading the [beginner's guide](http://nginx.org/en/docs/beginners_guide.html) first. Else let's get straight up to the point.
 
-Upon first install, Nginx will drop a default config file in `/etc/nginx/sites-available/default` that has some part like this:
+Upon first install, Nginx will drop a default config file in its config folder that has some part like this:
 
-```nginx
+```nginx {filename="/etc/nginx/sites-available/default"}
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
@@ -101,7 +101,7 @@ server {
 
 Here I wanted all subdomains by default point a nginx 404 site for now. By removing all unnecessary stuffs and adding the SSL certificate, here's the final result:
 
-```nginx
+```nginx {filename="/etc/nginx/sites-available/default"}
 server {
     # You could technically remove these because we don't allow HTTP
     # through port 80 so there's nothing to listen to.
@@ -134,7 +134,7 @@ server {
 
 Then, for each subsequent subdomain, first create a text file in the same folder as default config above. Each file will be responsible for each subdomain that you have. This site has this config:
 
-```nginx
+```nginx {filename="/etc/nginx/sites-available/blog"}
 server {
     # Listen on IPv4 or v6 based on how you config the DNS.
     # However v4 is still more widely used so it's prefered.
@@ -162,14 +162,14 @@ server {
 ```
 
 One crucial thing is that the specify root folder has to be readable by group `www-data` of Nginx. This can be tested with:
-```bash
+```bash {filename="bash"}
 sudo -u www-data stat /absolute/path/to/specified/root
 ```
 
-### Step 3: Activating the subdomains
+### Step 3: "Activating" the subdomain
 Since all config are in `sites-available`, this only lets Nginx know that these are available to be served. We can then create a [soft/symbolic link](https://www.cyberciti.biz/faq/creating-soft-link-or-symbolic-link/) of each config to `sites-enabled` to truly activate those subdomains:
 
-```bash
+```bash {filename="bash"}
 ln -s /etc/nginx/sites-available/<data name> /etc/nginx/sites-enabled/
 ```
 
