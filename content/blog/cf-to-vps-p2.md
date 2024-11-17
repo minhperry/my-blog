@@ -6,55 +6,53 @@ title: 'Part 2: Configuring VPS and DNS'
 series: 'Migrating from Cloudflare Pages to VPS'
 ---
 
-
-Since I only own one domain, I want to ultilize subdomains to serve different website. As you can see, this site is hosted under `blog.minhperry.de`, and the Skyblock site is under `skyblock.minhperry.de`. This will guide you to on how to setup multiple subdomain under a single VPS host.
+Since I only own one domain, I want to utilize subdomains to serve different websites. As you can see, this site is hosted under `blog.minhperry.de`, and the Skyblock site is under `skyblock.minhperry.de`. This guide will walk you through how to set up multiple subdomains under a single VPS host.
 
 <!--more-->
 
 ## Prerequisites
 - You have already shared your `ssh` key with your VPS provider.
-- You have some basic knowledge working with Linux terminal.
-- You have already have a `nginx` server installed, alongside `certbot` for SSL certificates.
-- You have access to your DNS panel of your domain. In this case, I also proxied it through Cloudflare for extra protection.
+- You have basic knowledge of working with the Linux terminal.
+- You already have an `nginx` server installed, along with `certbot` for SSL certificates.
+- You have access to your domain's DNS panel. In this case, I have also proxied it through Cloudflare for extra protection.
 
-This guide will work with an [Nginx](https://nginx.org/en/) server, under an Ubuntu 24.04.1 VPS. I am logged in as root user, so all `sudo` are ignored here. Add `sudo` before every command if you are not root.
+This guide is for setting up an [Nginx](https://nginx.org/en/) server on an Ubuntu 24.04.1 VPS. I am logged in as the root user, so all `sudo` commands are omitted here. Add `sudo` before every command if you are not logged in as root.
 
 ## DNS Routing
 
-First, create a DNS record type A with this content. 
+First, create a DNS A record with the following content:
 
-![DNS Setup](/images/dns.png) 
+![DNS Setup](/images/dns.png)
 
-Having name as * will only match every subdomain `*.example.com`, but not the top level domain `example.com`. In order to select the TLD, you need an @ selector. You can also use a CNAME-record to alias a subdomain to another domain instead of IP as in A-record.
+Setting the name as `*` will match all subdomains (e.g., `*.example.com`), but not the top-level domain (TLD) `example.com`. To match the TLD, you need to use the `@` selector. You can also use a CNAME record to alias a subdomain to another domain, rather than pointing to an IP address like an A record.
 
-## Adjusting Firewall
+## Adjusting the Firewall
 
-Before everything, we need to adjust firewall to allow access to Nginx. Just follow this [DigitalOcean's guide](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-20-04).
+Before anything else, we need to adjust the firewall to allow access to Nginx. Just follow this [DigitalOcean guide](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-20-04).
 
-Optionally, you can also deny HTTP traffic by denying Nginx HTTP through firewall, thus forcing only HTTPS traffic:
+Optionally, you can also deny HTTP traffic by blocking Nginx HTTP access through the firewall, forcing only HTTPS traffic:
 
 ~~~bash {filename="bash"}
 ufw deny 'Nginx HTTP'
 ~~~
 
-## SSL/TLS and Nginx config
+## SSL/TLS and Nginx Configuration
 
-With SSL/TLS, my website can be served safely on the internet, under the HTTPS protocol. Here I use [Let's Encrypt](https://letsencrypt.org/) with the help of [Certbot](https://certbot.eff.org/) through [this guide](https://www.webhi.com/how-to/generate-lets-encrypt-wildcard-certificates-nginx/):
+With SSL/TLS, my website can be served safely over the internet, using the HTTPS protocol. Here, I use [Let's Encrypt](https://letsencrypt.org/) with the help of [Certbot](https://certbot.eff.org/), following [this guide](https://www.webhi.com/how-to/generate-lets-encrypt-wildcard-certificates-nginx/):
 
-### Step 1: Generating wildcard certificate
-```bash {filename="bash"}
+### Step 1: Generating the Wildcard Certificate
+~~~bash {filename="bash"}
 sudo certbot certonly --manual --preferred-challenges=dns --server https://acme-v02.api.letsencrypt.org/directory --agree-tos -d '*.yourdomain.net'
-```
-Follow the promp and add a DNS TXT record to prove your ownership. The certificate (`fullchain.pem`) and its private key (`privkey.pem`) will be put under `/etc/letsencrypt/live/yourdomain.net`. This certificate will only lasts for 90d, and you can renew it near the end with `certbot renew --nginx`.
+~~~
+Follow the prompts and add a DNS TXT record to prove your ownership. The certificate (`fullchain.pem`) and its private key (`privkey.pem`) will be stored under `/etc/letsencrypt/live/yourdomain.net`. This certificate lasts for 90 days, and you can renew it near the end with `certbot renew --nginx`.
 
 ### Step 2: Configuring Nginx
 
-If you are not familiar with Nginx in any way, I recommend reading the [beginner's guide](http://nginx.org/en/docs/beginners_guide.html) first. Else let's get straight up to the point.
+If you are not familiar with Nginx, I recommend reading the [beginner's guide](http://nginx.org/en/docs/beginners_guide.html) first. Otherwise, let's get straight to the point.
 
-Upon first install, Nginx will drop a default config file in its config folder that has some part like this:
+Upon installation, Nginx will drop a default config file in its config folder, which looks like this:
 
-
-```nginx {filename="/etc/nginx/sites-available/default"}
+~~~nginx {filename="/etc/nginx/sites-available/default"}
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
@@ -70,21 +68,21 @@ server {
     # Read up on ssl_ciphers to ensure a secure configuration.
     # See: https://bugs.debian.org/765782
     #
-    # Self signed certs generated by the ssl-cert package
+    # Self-signed certs generated by the ssl-cert package
     # Don't use them in a production server!
     #
     # include snippets/snakeoil.conf;
 
     root /var/www/html;
 
-    # Add index.php to the list if you are using PHP
+    # Add index.php to the list if you're using PHP
     index index.html index.htm index.nginx-debian.html;
 
     server_name _;
 
     location / {
-        # First attempt to serve request as file, then
-        # as directory, then fall back to displaying a 404.
+        # First attempt to serve the request as a file, then
+        # as a directory, and fall back to displaying a 404.
         try_files $uri $uri/ =404;
         # proxy_pass http://localhost:8080;
         # proxy_http_version 1.1;
@@ -94,17 +92,16 @@ server {
         # proxy_cache_bypass $http_upgrade;
     }
 
-    # ... and many more
+    # ... and more
 }
-```
+~~~
 
-Here I wanted all subdomains by default point a nginx 404 site for now. By removing all unnecessary stuffs and adding the SSL certificate, here's the final result:
+Here, I wanted all subdomains to default to an Nginx 404 page for now. After removing unnecessary configurations and adding the SSL certificate, here's the final result:
 
-
-```nginx {filename="/etc/nginx/sites-available/default"}
+~~~nginx {filename="/etc/nginx/sites-available/default"}
 server {
-    # You could technically remove these because we don't allow HTTP
-    # through port 80 so there's nothing to listen to.
+    # Technically, these can be removed because we don't allow HTTP
+    # through port 80, so there's nothing to listen to.
     listen 80 default_server;
     listen [::]:80 default_server;
 
@@ -112,7 +109,7 @@ server {
     listen 443 ssl default_server;
     listen [::]:443 ssl default_server;
 
-    # Default Nginx html example file
+    # Default Nginx HTML example file
     root /var/www/html;
 
     # Use the wildcard generated SSL certificate
@@ -122,32 +119,32 @@ server {
     # List of index files to search for
     index index.html index.htm index.nginx-debian.html;
 
-    # Basically a catch-all block for any other non-specified domain,
-    # since _ is a simple invalid domain that will never match anything.
+    # Catch-all block for any non-specified domain,
+    # since _ is an invalid domain that will never match anything.
     # Refer to https://nginx.org/en/docs/http/server_names.html
     server_name _;
 
-    # For now, return a 404. You may implement a custom mechanic.
+    # For now, return a 404. You can implement a custom mechanism.
     return 404;
 }
-```
+~~~
 
-Then, for each subsequent subdomain, first create a text file in the same folder as default config above. Each file will be responsible for each subdomain that you have. This site has this config:
+For each subsequent subdomain, create a text file in the same folder as the default config above. Each file will be responsible for the subdomain. This site uses this configuration:
 
-```nginx {filename="/etc/nginx/sites-available/blog"}
+~~~nginx {filename="/etc/nginx/sites-available/blog"}
 server {
-    # Listen on IPv4 or v6 based on how you config the DNS.
-    # However v4 is still more widely used so it's prefered.
+    # Listen on IPv4 or IPv6 based on your DNS configuration.
+    # However, IPv4 is more widely used, so it's preferred.
     listen 443 ssl;
 
     # Specify subdomain here. This will match the exact subdomain.
     server_name blog.minhperry.de; 
 
-    # Use the same SSL cert
+    # Use the same SSL certificate
     ssl_certificate /etc/letsencrypt/live/minhperry.de/fullchain.pem;  
     ssl_certificate_key /etc/letsencrypt/live/minhperry.de/privkey.pem; 
 
-    # Root where your built index.html stays.
+    # Root where your built index.html is located.
     root /var/www/frontend/blog; 
     index index.html index.htm;
 
@@ -156,25 +153,24 @@ server {
             return 301 /about;
     }
 
-    # Optionally, enable error logging if needd.
+    # Optionally, enable error logging if needed.
     # error_log /var/log/nginx/blog_err.log;
 }
-```
+~~~
 
-One crucial thing is that the specify root folder has to be readable by group `www-data` of Nginx. This can be tested with:
-```bash {filename="bash"}
+One crucial thing is that the specified root folder must be readable by the `www-data` group in Nginx. You can test this with:
+
+~~~bash {filename="bash"}
 sudo -u www-data stat /absolute/path/to/specified/root
-```
+~~~
 
-### Step 3: "Activating" the subdomain
-Since all config are in `sites-available`, this only lets Nginx know that these are available to be served. We can then create a [soft/symbolic link](https://www.cyberciti.biz/faq/creating-soft-link-or-symbolic-link/) of each config to `sites-enabled` to truly activate those subdomains:
+### Step 3: "Activating" the Subdomain
+Since all configurations are in `sites-available`, this only informs Nginx that they are available to be served. To activate those subdomains, create a [symbolic link](https://www.cyberciti.biz/faq/creating-soft-link-or-symbolic-link/) of each config in `sites-enabled`:
 
-```bash {filename="bash"}
-ln -s /etc/nginx/sites-available/<data name> /etc/nginx/sites-enabled/
-```
+~~~bash {filename="bash"}
+ln -s /etc/nginx/sites-available/<data-name> /etc/nginx/sites-enabled/
+~~~
 
-And that's it. You're done. Final result should look like this:
-
+And that's it. You're done. The final result should look like this:
 
 {{< image src="/images/finaltree.png" alt="Final tree view" >}}
-

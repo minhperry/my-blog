@@ -8,4 +8,4 @@ git submodule update --init
 hugo build
 
 # Sync the build folder with the VPS
-rsync -avz public/ $VPS:/var/www/frontend/blog
+rsync -avz --delete --update public/ $VPS:/var/www/frontend/blog
