@@ -1,0 +1,10 @@
+code.language-bash>span.line::before {
+    content: "$";
+    margin-right: 0.5rem;
+    font-weight: bold;
+    color: rgb(189, 176, 0);
+}
+
+.dark code.language-bash>span.line::before {
+    color: rgb(255, 241, 46);
+}

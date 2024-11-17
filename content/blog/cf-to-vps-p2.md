@@ -7,7 +7,7 @@ series: 'Migrating from Cloudflare Pages to VPS'
 ---
 
 
-Since I only own one domain, I want to ultilize subdomains to serve different website. As you can see, this site is hosted under `blog.7278008.xyz`, and the Skyblock site is under `skyblock.7278008.xyz`. This will guide you to on how to setup multiple subdomain under a single VPS host.
+Since I only own one domain, I want to ultilize subdomains to serve different website. As you can see, this site is hosted under `blog.minhperry.de`, and the Skyblock site is under `skyblock.minhperry.de`. This will guide you to on how to setup multiple subdomain under a single VPS host.
 
 <!--more-->
 
@@ -26,8 +26,6 @@ First, create a DNS record type A with this content.
 ![DNS Setup](/images/dns.png) 
 
 Having name as * will only match every subdomain `*.example.com`, but not the top level domain `example.com`. In order to select the TLD, you need an @ selector. You can also use a CNAME-record to alias a subdomain to another domain instead of IP as in A-record.
-
-
 
 ## Adjusting Firewall
 
@@ -54,6 +52,7 @@ Follow the promp and add a DNS TXT record to prove your ownership. The certifica
 If you are not familiar with Nginx in any way, I recommend reading the [beginner's guide](http://nginx.org/en/docs/beginners_guide.html) first. Else let's get straight up to the point.
 
 Upon first install, Nginx will drop a default config file in its config folder that has some part like this:
+
 
 ```nginx {filename="/etc/nginx/sites-available/default"}
 server {
@@ -101,6 +100,7 @@ server {
 
 Here I wanted all subdomains by default point a nginx 404 site for now. By removing all unnecessary stuffs and adding the SSL certificate, here's the final result:
 
+
 ```nginx {filename="/etc/nginx/sites-available/default"}
 server {
     # You could technically remove these because we don't allow HTTP
@@ -116,8 +116,8 @@ server {
     root /var/www/html;
 
     # Use the wildcard generated SSL certificate
-    ssl_certificate /etc/letsencrypt/live/7278008.xyz/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/7278008.xyz/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/minhperry.de/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/minhperry.de/privkey.pem;
 
     # List of index files to search for
     index index.html index.htm index.nginx-debian.html;
@@ -141,11 +141,11 @@ server {
     listen 443 ssl;
 
     # Specify subdomain here. This will match the exact subdomain.
-    server_name blog.7278008.xyz; 
+    server_name blog.minhperry.de; 
 
     # Use the same SSL cert
-    ssl_certificate /etc/letsencrypt/live/7278008.xyz/fullchain.pem;  
-    ssl_certificate_key /etc/letsencrypt/live/7278008.xyz/privkey.pem; 
+    ssl_certificate /etc/letsencrypt/live/minhperry.de/fullchain.pem;  
+    ssl_certificate_key /etc/letsencrypt/live/minhperry.de/privkey.pem; 
 
     # Root where your built index.html stays.
     root /var/www/frontend/blog; 

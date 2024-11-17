@@ -51,3 +51,4 @@ params:
   editURL:
     enable: true
     base: "https://github.com/minhperry/my-blog/tree/master/content"
+    custom_css: ["css/custom.css", "styles.css", "css/dark.css"]

@@ -1,3 +1,3 @@
-Source for my blog at [blog.7278008.xyz](https://blog.7278008.xyz)
+Source for my blog at [blog.minhperry.de](https://blog.minhperry.de)
 
 TODO: https://gohugo.io/templates/embedded/#open-graph
