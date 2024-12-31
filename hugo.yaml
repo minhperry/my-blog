@@ -10,6 +10,16 @@ module:
 markup:
   # allow raw html
   goldmark:
+    extension:
+      passthrough:
+        delimiters:
+          block:
+          - - \[
+            - \]
+          - - $$
+            - $$
+        enable: false
+
     renderer:
       unsafe: true
 
@@ -36,6 +46,8 @@ menu:
         icon: github
 
 params:
+  math: true
+
   navbar:
     displayTitle: true
     displayLogo: true
