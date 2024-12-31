@@ -1,6 +1,6 @@
 ---
 date: '2024-12-31T00:25:37+01:00'
-draft: true
+draft: false
 title: 'Every Color'
 tags: ['react', 'frontend', 'webdev']
 ---
@@ -93,3 +93,9 @@ def rgba_to_number(rgba_hex):
 To verify if it's really bijection:
 
 {{< image src="/images/bijection.png" alt="Bijection verification" >}}
+
+This resulted in the second version of the site:
+
+{{< image src="/images/v2.png" alt="Version 2" >}}
+
+This was hell of a ride from my very first experience at working with React.
