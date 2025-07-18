@@ -1,7 +1,7 @@
 ---
 title: "From Hugo to Astro"
-pubDatetime: 2025-01-18T02:20:00+01:00
-modDatetime: 2025-01-18T02:20:00+01:00
+pubDatetime: 2025-07-18T23:30:00+01:00
+modDatetime: 2025-07-18T23:44:56Z
 featured: false
 draft: false
 tags:
