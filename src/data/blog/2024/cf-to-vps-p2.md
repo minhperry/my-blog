@@ -1,7 +1,7 @@
 ---
 title: "Part 2: Configuring VPS and DNS"
 pubDatetime: 2024-10-20T18:13:36+02:00
-modDatetime: 2025-07-18T22:33:07Z
+modDatetime: 2025-07-18T23:53:42Z
 featured: false
 draft: false
 tags:
@@ -15,6 +15,8 @@ tags:
 description: "A detailed guide on configuring VPS and DNS for multiple subdomains with SSL certificates and Nginx setup."
 author: "minhperry"
 ---
+
+## Table of contents
 
 Since I only own one domain, I want to utilize subdomains to serve different websites. As you can see, this site is hosted under `blog.minhperry.de`, and the Skyblock site is under `skyblock.minhperry.de`. This guide will walk you through how to set up multiple subdomains under a single VPS host.
 
