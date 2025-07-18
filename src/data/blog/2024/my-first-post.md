@@ -1,7 +1,7 @@
 ---
 title: "My First Post"
 pubDatetime: 2024-10-20T03:03:23+02:00
-modDatetime: 2025-07-18T22:40:56Z
+modDatetime: 2025-07-18T23:29:19Z
 featured: false
 draft: false
 tags:
@@ -13,9 +13,9 @@ author: "minhperry"
 
 ## I just found out about ~~Hugo~~ Astro
 
-~~Just want to say thanks to the team behind Go Hugo. That's it.
+<s>Just want to say thanks to the team behind Go Hugo. That's it.
 
-Download [Hugo](https://gohugo.io/) today and deploy your own website with ease! No need of any programming knowledge, you just need some Markdown knowledge.~~
+Download [Hugo](https://gohugo.io/) today and deploy your own website with ease! No need of any programming knowledge, you just need some Markdown knowledge.</s>
 
 It's Astro now.
 
