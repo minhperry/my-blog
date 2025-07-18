@@ -1,7 +1,7 @@
 ---
 title: "Part 2: Configuring VPS and DNS"
 pubDatetime: 2024-10-20T18:13:36+02:00
-modDatetime: 2024-10-20T18:13:36+02:00
+modDatetime: 2025-07-18T22:33:07Z
 featured: false
 draft: false
 tags:
@@ -31,7 +31,7 @@ This guide is for setting up an [Nginx](https://nginx.org/en/) server on an Ubun
 
 First, create a DNS A record with the following content:
 
-![DNS Setup](/images/dns.png)
+![DNS Setup](@/assets/images/dns.png)
 
 Setting the name as `*` will match all subdomains (e.g., `*.example.com`), but not the top-level domain (TLD) `example.com`. To match the TLD, you need to use the `@` selector. You can also use a CNAME record to alias a subdomain to another domain, rather than pointing to an IP address like an A record.
 
@@ -180,9 +180,9 @@ sudo -u www-data stat /absolute/path/to/specified/root
 Since all configurations are in `sites-available`, this only informs Nginx that they are available to be served. To activate those subdomains, create a [symbolic link](https://www.cyberciti.biz/faq/creating-soft-link-or-symbolic-link/) of each config in `sites-enabled`:
 
 ```bash
-ln -s /etc/nginx/sites-available/<data-name> /etc/nginx/sites-enabled/
+ln -s /etc/nginx/sites-available/data-name /etc/nginx/sites-enabled/
 ```
 
 And that's it. You're done. The final result should look like this:
 
-![Final tree view](/images/finaltree.png)
+![Final tree view](@/assets/images/finaltree.png)

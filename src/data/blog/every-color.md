@@ -1,18 +1,19 @@
 ---
 title: "Every Color"
 pubDatetime: 2024-12-31T00:25:37+01:00
-modDatetime: 2024-12-31T00:25:37+01:00
+modDatetime: 2025-07-18T22:33:07Z
 featured: false
 draft: false
 tags:
   - react
   - frontend
   - webdev
-  - angular
   - colors
 description: "My take on creating a website that lists every possible color, inspired by everyuuid.com and every-ssn.com projects."
 author: "minhperry"
 ---
+
+## Table of contents
 
 You may know [Nolen](https://x.com/itseieio), also known as eieio, for his [everyuuid.com](https://everyuuid.com) website. But, what if the UUID were colors instead?
 
@@ -43,7 +44,7 @@ My idea started with the [RGBA color model](https://en.wikipedia.org/wiki/RGBA_c
 
 I was more familiar with Angular more than React and its state things, so it was a challenge for me at first. After a little bit of learning, plus being familiar with component-based framework, I managed to get the first version of my website on and working.
 
-![First version](/images/firstver.png)
+![First version](@/assets/images/firstver.png)
 
 But again, sequential incremental is boring ahh. So [I asked Claude](https://claude.ai/chat/86af0c41-4302-4ab4-99da-8a3e257fbc9e) for a bijective function of Index to RGBA, which involves reversible logical operators like `XOR` and rotations.
 
@@ -100,10 +101,8 @@ def rgba_to_number(rgba_hex):
 
 To verify if it's really bijection:
 
-![Bijection verification](/images/bijection.png)
+![Bijection verification](@/assets/images/bijection.png)
 
 This resulted in the second version of the site:
 
-![Version 2](/images/v2.png)
-
-This was hell of a ride from my very first experience at working with React. It was fun, and at least I learned something new!
+![Version 2](@/assets/images/v2.png)
