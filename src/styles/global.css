@@ -59,7 +59,12 @@ html[data-theme="dark"] {
 }
 
 .active-nav {
-  @apply underline decoration-wavy decoration-2 underline-offset-4;
+  @apply rounded-md bg-accent/10 px-3 py-2 font-medium text-accent transition-all duration-200;
+}
+
+/* Ensure consistent vertical alignment for all nav items */
+nav a {
+  @apply inline-block px-3 py-2 transition-all duration-200;
 }
 
 /* Source: https://piccalil.li/blog/a-more-modern-css-reset/ */
