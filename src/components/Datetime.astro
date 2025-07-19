@@ -25,7 +25,7 @@ const {
 } = Astro.props;
 
 /* ========== Formatted Datetime ========== */
-const isModified = modDatetime && modDatetime > pubDatetime;
+// const isModified = modDatetime && modDatetime > pubDatetime;
 
 const pubDate = dayjs(pubDatetime).tz(postTimezone || SITE.timezone);
 const modDate = modDatetime ? dayjs(modDatetime).tz(postTimezone || SITE.timezone) : null;
