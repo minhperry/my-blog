@@ -25,10 +25,16 @@ jobs:
         run: pnpm run build
         working-directory: ${{ github.workspace }}
 
+      - name: Clean remote directory
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_KEY }} ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} '
+            rm -rf /var/www/blog/*
+          '
+
       - name: rsync deployments
         uses: burnett01/rsync-deployments@7.0.1
         with:
-          switches: -avzr --delete
+          switches: -avzr --delete --force
           path: dist/
           remote_path: /var/www/blog
           remote_host: ${{ secrets.VPS_IP }}
