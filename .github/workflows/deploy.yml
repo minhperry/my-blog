@@ -21,9 +21,33 @@ jobs:
         run: pnpm install --frozen-lockfile
         working-directory: ${{ github.workspace }}
 
+      - name: Clear build cache
+        run: |
+          rm -rf dist/
+          rm -rf .astro/
+          rm -rf node_modules/.cache/
+          echo "Build cache cleared"
+
       - name: Build Astro app
         run: pnpm run build
         working-directory: ${{ github.workspace }}
+
+      - name: Verify build output
+        run: |
+          echo "=== Build Output Verification ==="
+          echo "Total HTML files: $(find dist -name "*.html" | wc -l)"
+          echo "Index file exists: $(test -f dist/index.html && echo "YES" || echo "NO")"
+          echo "Index file size: $(ls -lh dist/index.html 2>/dev/null || echo "NOT FOUND")"
+          echo "Index file timestamp: $(stat -c %y dist/index.html 2>/dev/null || echo "NOT FOUND")"
+          echo "Recent HTML files:"
+          find dist -name "*.html" -mtime -1 | head -5
+          echo "================================"
+
+      - name: Add cache-busting headers
+        run: |
+          # Add cache-busting meta tags to HTML files
+          find dist -name "*.html" -exec sed -i 's/<head>/<head>\n  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">\n  <meta http-equiv="Pragma" content="no-cache">\n  <meta http-equiv="Expires" content="0">/' {} \;
+          echo "Cache-busting headers added to HTML files"
 
       - name: Clean remote directory
         run: |
