@@ -32,10 +32,19 @@ jobs:
         run: pnpm run build
         working-directory: ${{ github.workspace }}
 
+      - name: Set build timestamp
+        run: echo "BUILD_TS=$(date +'%Y-%m-%d_%H-%M-%S')" >> $GITHUB_ENV
+
+      - name: Upload build as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: astro-build-${{ env.BUILD_TS }}
+          path: dist/
+
       - name: rsync deployments
         uses: burnett01/rsync-deployments@7.0.1
         with:
-          switches: -avzrc --delete --force
+          switches: -avzc --delete
           path: dist/
           remote_path: /var/www/blog
           remote_host: ${{ secrets.VPS_IP }}
