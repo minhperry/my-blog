@@ -1,7 +1,7 @@
 ---
 title: "Migrate from Nginx to Caddy"
 pubDatetime: 2025-07-24T00:45:00+01:00
-featured: false
+featured: true
 draft: false
 tags:
   - caddy
