@@ -35,7 +35,7 @@ jobs:
       - name: rsync deployments
         uses: burnett01/rsync-deployments@7.0.1
         with:
-          switches: -avzr --delete --force
+          switches: -avzrc --delete --force
           path: dist/
           remote_path: /var/www/blog
           remote_host: ${{ secrets.VPS_IP }}
