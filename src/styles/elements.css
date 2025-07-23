@@ -1,0 +1,8 @@
+.active-nav {
+  @apply rounded-md bg-accent/10 px-3 py-2 font-medium text-accent transition-all duration-200;
+}
+
+/* Ensure consistent vertical alignment for all nav items */
+nav a {
+  @apply inline-block px-3 py-2 transition-all duration-200;
+}

@@ -1,5 +1,7 @@
 @import "tailwindcss";
+
 @import "./typography.css";
+@import "./elements.css";
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
@@ -44,6 +46,26 @@ html[data-theme="dark"] {
   button {
     @apply outline-offset-1 outline-accent focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-dashed;
   }
+
+  p {
+    a:not([class]) {
+      color: var(--color-accent);
+      font-weight: 600;
+      background: var(--color-accent);
+      color: var(--color-background);
+      padding: 0.1em 0.3em;
+      border-radius: 0.25em;
+      box-shadow: 0 1px 4px 0 rgb(0 0 0 / 8%);
+      text-decoration: none;
+    }
+    a:not([class]):hover,
+    a:not([class]):focus-visible {
+      background: var(--color-foreground);
+      color: var(--color-background);
+      box-shadow: 0 2px 8px 0 rgb(0 0 0 / 16%);
+    }
+  }
+
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
@@ -56,15 +78,6 @@ html[data-theme="dark"] {
 
 @utility max-w-app {
   @apply max-w-7xl;
-}
-
-.active-nav {
-  @apply rounded-md bg-accent/10 px-3 py-2 font-medium text-accent transition-all duration-200;
-}
-
-/* Ensure consistent vertical alignment for all nav items */
-nav a {
-  @apply inline-block px-3 py-2 transition-all duration-200;
 }
 
 /* Source: https://piccalil.li/blog/a-more-modern-css-reset/ */
