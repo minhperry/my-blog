@@ -3,6 +3,6 @@
 }
 
 /* Ensure consistent vertical alignment for all nav items */
-nav a {
+#top-nav-wrap nav a {
   @apply inline-block px-3 py-2 transition-all duration-200;
 }

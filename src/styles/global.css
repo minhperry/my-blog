@@ -51,18 +51,20 @@ html[data-theme="dark"] {
     a:not([class]) {
       color: var(--color-accent);
       font-weight: 600;
-      background: var(--color-accent);
-      color: var(--color-background);
-      padding: 0.1em 0.3em;
-      border-radius: 0.25em;
-      box-shadow: 0 1px 4px 0 rgb(0 0 0 / 8%);
       text-decoration: none;
+      background: linear-gradient(
+        to right,
+        var(--color-accent),
+        var(--color-accent)
+      );
+      background-size: 0 2px;
+      background-repeat: no-repeat;
+      background-position: 0 100%;
+      transition: background-size 0.3s ease-in-out;
     }
     a:not([class]):hover,
     a:not([class]):focus-visible {
-      background: var(--color-foreground);
-      color: var(--color-background);
-      box-shadow: 0 2px 8px 0 rgb(0 0 0 / 16%);
+      background-size: 100% 2px;
     }
   }
 
